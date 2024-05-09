@@ -41,5 +41,6 @@
 
 - `git clone git@github.com:rhelico/wthr.git`
 - `bundle install`
-- `yarn`
+- `yarn`???
+- `rails tailwindcss:build` ???
 - `rails db:create db:migrate`
