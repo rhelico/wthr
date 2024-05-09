@@ -68,3 +68,14 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+
+# application specific gems
+# address lookup
+gem 'geocoder', '~> 1.8', '>= 1.8.3'
+
+# open weather  
+gem 'open-weather-ruby-client'
+
+# to support .env file for dev and test
+gem 'dotenv-rails', groups: [:development, :test]
