@@ -1,0 +1,28 @@
+<!-- Hero 1: Main content  -->
+<div class="flex flex-wrap">
+  <div class="w-full lg:w-3/5 2xl:w-4/5">
+    section 1
+  </div>
+   <div class="w-full lg:w-2/5 2xl:w-1/5 flex flex-col p-4">
+    <div class="mb-2">
+      <span class="text-6xl xl:text-4xl lg:text-2xl md:text-xl">copy </span>
+    </div>
+  </div>
+</div>
+
+<!-- Hero 2: Four Weather Tiles -->
+<div class="flex flex-wrap justify-between mt-8">
+    <% heroes = [
+      "Weather tile 1",
+      "Weather tile 2",
+      "Weather tile 3",
+      "Weather tile 4"
+    ] %>
+
+<% heroes.each do |name| %>
+    <div class="w-1/2 md:w-1/4 p-2">
+      <p class="text-center mb-2"><%= name %></p>
+    </div>
+<% end %>
+</div>
+
