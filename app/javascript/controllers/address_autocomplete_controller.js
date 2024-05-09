@@ -7,6 +7,7 @@ export default class extends Controller {
   connect() {
     console.log("Address autocomplete controller connected.")
     this.queryTarget.addEventListener("input", debounce(this.suggest.bind(this), 300))
+    this.queryTarget.addEventListener("input", this.handleAddressInput.bind(this))
   }
 
   async suggest() {
@@ -47,5 +48,12 @@ export default class extends Controller {
     this.latitudeTarget.value = selectedAddress.latitude
     this.longitudeTarget.value = selectedAddress.longitude
     this.resultsTarget.innerHTML = ""
+  }
+
+  handleAddressInput() {
+    if (this.queryTarget.value === '') {
+      this.latitudeTarget.value = '';
+      this.longitudeTarget.value = '';
+    }
   }
 }
