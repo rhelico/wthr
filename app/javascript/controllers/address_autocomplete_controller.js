@@ -48,6 +48,15 @@ export default class extends Controller {
     this.latitudeTarget.value = selectedAddress.latitude
     this.longitudeTarget.value = selectedAddress.longitude
     this.resultsTarget.innerHTML = ""
+
+    // Dispatch a custom event with latitude and longitude 
+    // ..first known customer is the weather_controller.js
+    document.dispatchEvent(new CustomEvent("addressSelected", {
+      detail: {
+        latitude: selectedAddress.latitude,
+        longitude: selectedAddress.longitude
+      }
+    }));
   }
 
   handleAddressInput() {

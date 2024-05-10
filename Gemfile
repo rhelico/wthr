@@ -74,8 +74,11 @@ end
 # address lookup
 gem 'geocoder', '~> 1.8', '>= 1.8.3'
 
-# open weather  
-gem 'open-weather-ruby-client'
-
 # to support .env file for dev and test
 gem 'dotenv-rails', groups: [:development, :test]
+
+# to make URL calls to open weather api
+gem 'httpparty'
+
+# to support http logging to debug open weather api calls
+gem 'http_logger'

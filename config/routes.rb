@@ -16,5 +16,8 @@ Rails.application.routes.draw do
   get 'addresses/autocomplete', to: 'addresses#autocomplete'
   resources :addresses, only: [:index]
 
+  # weather lookup
+  get 'weather/lookup', to: 'weather#lookup'
+
   
 end
