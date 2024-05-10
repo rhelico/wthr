@@ -92,5 +92,14 @@ gem 'redis'
 gem 'pr_geohash', '~> 1.0' 
 
 # contextual logging so that the module, class, and method are logged with the message
-gem "amazing_print"
-gem "rails_semantic_logger"
+gem 'amazing_print'
+gem 'rails_semantic_logger'
+
+# helpful as i stablize the code
+gem 'byebug'
+
+# gettin' around to those unit tests
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'mock_redis'
+end

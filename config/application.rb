@@ -29,5 +29,8 @@ module Wthr
     # load env vars to pass to javascript
     Bundler.require(*Rails.groups)
     Dotenv::Rails.load
+
+    # use rspec!
+    config.generators.test_framework :rspec
   end
 end

@@ -61,7 +61,7 @@ Take an implementation of BaseFetcher, gets a key from it to check cache.  Faili
 
 
 ## Assignment Quality Requirements
-[ ] Functionality is a priority over form
+[x] Functionality is a priority over form
 [ ] Unit Tests (#1 on the list of things people forget to include – so please remember, treat this as if it were true production level code, do not treat it just as an exercise),
 [ ] Detailed Comments/Documentation within the code, 
 [x] ...also have a README file

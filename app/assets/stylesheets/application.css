@@ -14,16 +14,15 @@
  *= require_self
  */
 
-/* Example Tailwind Classes for Dropdown Items */
+/* application specific */
+/* for autocomplete dropdown */
 .autocomplete-item {
   padding: 0.5rem 1rem;
   border-bottom: 1px solid #e5e7eb;
-  /* Tailwind's `border-gray-300` */
   cursor: pointer;
 }
 
 .autocomplete-item:hover,
 .autocomplete-item.bg-blue-100 {
   background-color: #ebf8ff;
-  /* Tailwind's `bg-blue-100` */
 }
