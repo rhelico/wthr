@@ -74,13 +74,5 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
-  # application specific config
-  HttpLogger.logger = Logger.new($stdout)
-  HttpLogger.colorize = true
-  HttpLogger.ignore = [/newrelic\.com/]
-  HttpLogger.log_headers = true
-  HttpLogger.log_request_body = true
-  HttpLogger.log_response_body = true
-  HttpLogger.level = :info
-  HttpLogger.collapse_body_limit = 5000  
+
 end

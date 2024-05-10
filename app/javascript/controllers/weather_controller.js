@@ -6,12 +6,11 @@ export default class extends Controller {
   connect() {
     document.addEventListener("addressSelected", this.fetchWeather.bind(this))
   }
-  //let stimulus handle the disconnect, not declaring it explicitly here.
 
   async fetchWeather(event) {
     const { latitude, longitude } = event.detail
     try {
-      const response = await fetch(`/weather/lookup?latitude=${latitude}&longitude=${longitude}`, {
+      const response = await fetch(`/weather/lookup?latitude=${String(latitude)}&longitude=${String(longitude)}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -23,24 +22,29 @@ export default class extends Controller {
         const weatherData = await response.json()
         this.displayWeatherData(weatherData)
       } else {
-        const error = await response.json()
-        this.displayError(error.error)
+        const errorData = await response.json()
+        this.displayError(`Error from response: ${errorData.error || "Unknown error"}`)
       }
     } catch (error) {
-      console.error("Error fetching weather data:", error)
-      this.displayError("Error fetching weather data. Please try again.")
+      console.error("Error fetching weather data from server:", error)
+      this.displayError("Error fetching weather data from server. Please try again.")
     }
   }
 
   displayWeatherData(weatherData) {
     const weatherElement = this.weatherTarget
+    const temperature = weatherData.current?.temp ?? "N/A"
+    const description = weatherData.current?.weather[0]?.description ?? "N/A"
+    const windSpeed = weatherData.current?.wind_speed ?? "N/A"
+    const humidity = weatherData.current?.humidity ?? "N/A"
+
     weatherElement.innerHTML = `
       <div class="p-4 bg-gray-100 rounded-lg">
         <h3 class="text-lg font-semibold mb-2">Current Weather</h3>
-        <p><strong>Temperature:</strong> ${weatherData.current.temp} °C</p>
-        <p><strong>Description:</strong> ${weatherData.current.weather[0].description}</p>
-        <p><strong>Wind Speed:</strong> ${weatherData.current.wind_speed} m/s</p>
-        <p><strong>Humidity:</strong> ${weatherData.current.humidity}%</p>
+        <p><strong>Temperature:</strong> ${temperature} °C</p>
+        <p><strong>Description:</strong> ${description}</p>
+        <p><strong>Wind Speed:</strong> ${windSpeed} m/s</p>
+        <p><strong>Humidity:</strong> ${humidity}%</p>
       </div>
     `
   }
