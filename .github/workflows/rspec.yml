@@ -53,7 +53,7 @@ jobs:
 
       - name: Create and Migrate Database
         run: |
-          export DATABASE_URL=postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
+          export DATABASE_URL=postgres://postgres:password@localhost:5432/wthr_production
           rails db:create db:migrate
 
       - name: Run RSpec tests
