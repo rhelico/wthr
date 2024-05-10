@@ -81,4 +81,16 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'httpparty'
 
 # to support http logging to debug open weather api calls
-gem 'http_logger'
+# gem 'http_logger'
+
+# redis in docker
+gem 'docker-api'
+gem 'docker'
+gem 'redis'
+
+# geohash for cacheing nearby lat/lon
+gem 'pr_geohash', '~> 1.0' 
+
+# contextual logging so that the module, class, and method are logged with the message
+gem "amazing_print"
+gem "rails_semantic_logger"

@@ -1,5 +1,3 @@
-# app/controllers/addresses_controller.rb
-
 class AddressesController < ApplicationController
   def autocomplete
     query = params[:query]

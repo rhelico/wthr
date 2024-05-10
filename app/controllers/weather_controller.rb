@@ -1,16 +1,25 @@
 class WeatherController < ApplicationController
+  include SemanticLogger::Loggable
   def lookup
-    latitude = params[:latitude]
-    longitude = params[:longitude]
-    Rails.logger.info "Looking up weather for lat: #{latitude}, lon: #{longitude}"
+    # Convert to floats to prevent errors
+    latitude = params[:latitude].to_f
+    longitude = params[:longitude].to_f
+
+    logger.info "Looking up weather for lat: #{latitude}, lon: #{longitude}"
 
     begin
-      client = OpenWeatherClient.new
-      weather = client.current_weather(lat: latitude, lon: longitude)
-      Rails.logger.info "Weather data: #{weather.to_h}"
-      render json: weather.to_h
-    rescue OpenWeatherClient::Unauthorized, OpenWeatherClient::NotFound, OpenWeatherClient::UnprocessableEntity => e
-      render json: { error: e.message }, status: :unprocessable_entity
+      weather_service = Weather::WeatherService.new
+      weather = weather_service.get_weather(latitude: latitude, longitude: longitude)
+
+      if weather[:error]
+        Rails.logger.error "Error in WeatherService response: #{weather[:error]}"
+        render json: { error: weather[:error] }, status: :unprocessable_entity
+      else
+        render json: weather
+      end
+    rescue StandardError => e
+      logger.error "Error fetching weather data: #{e.message}"
+      render json: { error: "Error fetching weather data: #{e.message}" }, status: :unprocessable_entity
     end
   end
 end
