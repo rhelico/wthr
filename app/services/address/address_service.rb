@@ -1,4 +1,13 @@
 module Address
+  # This address service is bound to and abstracts away AddressProvider.
+  # This is an incomplete abstraction.  AddressProvider could be a base class (like we did
+  # with BaseFetcher.  It's better than a monolotihic class, and would allow us to easily swap
+  # in different providers, or different output formats.
+  #
+  # Example usage:
+  #   address_service = Address::AddressService.new
+  #   autocomplete_results = address_service.autocomplete("1600 Amphitheatre Parkway")
+  #
   class AddressService
     def initialize(address_provider = AddressProvider.new)
       @provider = address_provider
