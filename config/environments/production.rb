@@ -51,11 +51,19 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new(STDOUT)
-    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
-    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+  # # Log to STDOUT by default
+  # config.logger = ActiveSupport::Logger.new(STDOUT)
+  #   .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+  #   .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
+  # Instead i'd like to use Semantic Logger
+  # Use Semantic Logger for logging
+  config.logger = SemanticLogger[Rails]
+
+  # Configure Semantic Logger appenders and options
+  SemanticLogger.add_appender(io: STDOUT, formatter: :color)
+  SemanticLogger.default_level = :info
+  
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 

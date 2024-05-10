@@ -6,15 +6,6 @@ class OpenWeatherClient
     @api_key = api_key
   end
 
-  def current_weather(lat:, lon:, units: 'metric')
-    query = { lat: lat, lon: lon, units: units, exclude: 'minutely,hourly,daily,alerts', appid: @api_key }
-    self.class.get('/onecall', query: query)
-  end
-
-  def forecast(lat:, lon:, units: 'metric')
-    query = { lat: lat, lon: lon, units: units, appid: @api_key }
-    self.class.get('/onecall', query: query)
-  end
 end
 
 # Make the client accessible globally
