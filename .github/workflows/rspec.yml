@@ -1,0 +1,53 @@
+name: Run RSpec tests on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  rspec:
+    name: Run RSpec tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: wthr_production
+          
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.0
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Set up Docker
+        run: bundle exec rake redis:setup
+
+      - name: Build Tailwind CSS
+        run: rails tailwindcss:build
+
+      - name: Create and Migrate Database
+        run: rails db:create db:migrate
+
+      - name: Run RSpec tests
+        run: bundle exec rspec
