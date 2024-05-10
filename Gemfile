@@ -74,13 +74,23 @@ end
 # address lookup
 gem 'geocoder', '~> 1.8', '>= 1.8.3'
 
-# open weather  
-gem 'open-weather-ruby-client'
-
 # to support .env file for dev and test
 gem 'dotenv-rails', groups: [:development, :test]
 
-# simplifying redis setup with a docker container
-# hey i know this isn't enterprise but i don't want you to have to setup redis
-# in the big real world this would be a redis cluster
+# to make URL calls to open weather api
+gem 'httpparty'
+
+# to support http logging to debug open weather api calls
+# gem 'http_logger'
+
+# redis in docker
 gem 'docker-api'
+gem 'docker'
+gem 'redis'
+
+# geohash for cacheing nearby lat/lon
+gem 'pr_geohash', '~> 1.0' 
+
+# contextual logging so that the module, class, and method are logged with the message
+gem "amazing_print"
+gem "rails_semantic_logger"

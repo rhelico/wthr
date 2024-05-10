@@ -77,6 +77,8 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    amazing_print (1.6.0)
+    backticks (1.0.5)
     base64 (0.2.0)
     bigdecimal (3.1.8)
     bindex (0.8.1)
@@ -100,24 +102,29 @@ GEM
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    docker (0.4.0)
+      backticks (~> 1.0.0)
+    docker-api (2.2.0)
+      excon (>= 0.47.0)
+      multi_json
     dotenv (3.1.2)
     dotenv-rails (3.1.2)
       dotenv (= 3.1.2)
       railties (>= 6.1)
     drb (2.2.1)
     erubi (1.12.0)
-    faraday (2.9.0)
-      faraday-net_http (>= 2.0, < 3.2)
-    faraday-multipart (1.0.4)
-      multipart-post (~> 2)
-    faraday-net_http (3.1.0)
-      net-http
+    excon (0.110.0)
     geocoder (1.8.3)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    hashie (5.0.0)
+    httparty (0.22.0)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
+    httpparty (0.2.0)
+      httparty (> 0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.1)
@@ -144,10 +151,10 @@ GEM
     mini_mime (1.1.5)
     minitest (5.22.3)
     msgpack (1.7.2)
-    multipart-post (2.4.1)
+    multi_json (1.15.0)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
     mutex_m (0.2.0)
-    net-http (0.4.1)
-      uri
     net-imap (0.4.10)
       date
       net-protocol
@@ -170,12 +177,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.4-x86_64-linux)
       racc (~> 1.4)
-    open-weather-ruby-client (0.4.0)
-      activesupport
-      faraday (>= 2.0.1)
-      faraday-multipart
-      hashie
     pg (1.5.6)
+    pr_geohash (1.0.0)
     psych (5.1.2)
       stringio
     public_suffix (5.0.5)
@@ -211,6 +214,10 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails_semantic_logger (4.14.0)
+      rack
+      railties (>= 5.1)
+      semantic_logger (~> 4.13)
     railties (7.1.3.2)
       actionpack (= 7.1.3.2)
       activesupport (= 7.1.3.2)
@@ -222,6 +229,10 @@ GEM
     rake (13.2.1)
     rdoc (6.6.3.1)
       psych (>= 4.0.0)
+    redis (5.2.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.22.1)
+      connection_pool
     regexp_parser (2.9.0)
     reline (0.5.5)
       io-console (~> 0.5)
@@ -232,6 +243,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    semantic_logger (4.15.0)
+      concurrent-ruby (~> 1.0)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -262,7 +275,6 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uri (0.13.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -286,17 +298,23 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  amazing_print
   bootsnap
   capybara
   debug
+  docker
+  docker-api
   dotenv-rails
   geocoder (~> 1.8, >= 1.8.3)
+  httpparty
   importmap-rails
   jbuilder
-  open-weather-ruby-client
   pg (~> 1.1)
+  pr_geohash (~> 1.0)
   puma (>= 5.0)
   rails (~> 7.1.3, >= 7.1.3.2)
+  rails_semantic_logger
+  redis
   selenium-webdriver
   sprockets-rails
   stimulus-rails
