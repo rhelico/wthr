@@ -39,7 +39,14 @@
 
 ## installation steps
 
-- `git clone git@github.com:rhelico/wthr.git`
-- `bundle install`
-- `rails tailwindcss:build` 
-- `rails db:create db:migrate`
+1. `git clone git@github.com:rhelico/wthr.git`
+1. `bundle install`
+1. `rails tailwindcss:build` 
+1. `rails db:create db:migrate`
+
+## set up env
+you can safely create a .env while developing 
+1. create env var for GOOGLE_GEOCODE_API_KEY - must have maps access and $
+1. create env var for OPENWEATHERMAP_API_KEY - iirc it's free to start
+
+
