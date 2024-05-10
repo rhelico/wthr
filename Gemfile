@@ -79,3 +79,8 @@ gem 'open-weather-ruby-client'
 
 # to support .env file for dev and test
 gem 'dotenv-rails', groups: [:development, :test]
+
+# simplifying redis setup with a docker container
+# hey i know this isn't enterprise but i don't want you to have to setup redis
+# in the big real world this would be a redis cluster
+gem 'docker-api'
