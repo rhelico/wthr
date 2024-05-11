@@ -6,10 +6,7 @@ module Weather
   # fetching and caching data.
   #
   # The weather data is fetched from the specified weather provider.
-  # The cache key is generated based on the latitude and longitude coordinates using the GeoHash
-  # algorithm, which ensures that nearby coordinates have similar cache keys. 
-  #
-  # Yay!
+  # The cache key is passed in and on demand from the cache service is presented to cach fetched data.
   #
   # The CacheService will use the cache key to store and retrieve the weather data from the cache,
   # ...and check to see if the data is already cached. It's a read-through cache so will use this
@@ -39,7 +36,7 @@ module Weather
     end
 
     def fetch
-      @weather_provider.get_weather.to_h
+      @weather_provider.forecast.to_h
     end
   end
 end

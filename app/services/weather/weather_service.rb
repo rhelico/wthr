@@ -12,7 +12,7 @@ module Weather
   #
   # Usage:
   #   weather_service = WeatherService.new
-  #   weather_data = weather_service.get_weather(latitude: 37.7749, longitude: -122.4194)
+  #   weather_data = weather_service.get_weather(latitude: 37.7749, longitude: -122.4194, postal_code: "94103")
   #
   # Dependencies:
   #   - WeatherProvider: Provides the actual weather data fetching functionality.
