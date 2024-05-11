@@ -106,4 +106,4 @@ group :development, :test do
 end
 
 # remove postgres dependency
-gem 'activerecord-nulldb-adapter'
+# gem 'activerecord-nulldb-adapter'
