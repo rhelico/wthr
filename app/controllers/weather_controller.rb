@@ -1,27 +1,19 @@
 class WeatherController < ApplicationController
   include SemanticLogger::Loggable
-  # Endpoint for weather lookup based on latitude and longitude.
+# This endpoint provides weather data based on geographical coordinates and postal code.
+  # It serves as the backend service for clients needing weather data.
   #
-  # The client needs a place to call to get weather data based on latitude and longitude,
-  # this is that endpoint.
+  # @param latitude [Float] Latitude of the location.
+  # @param longitude [Float] Longitude of the location.
+  # @param postalCode [String] Postal code of the location for caching purposes.
   #
-  # @param [Float] latitude The latitude of the location to fetch weather for.
-  # @param [Float] longitude The longitude of the location to fetch weather for.
-  # @param [String] postalCode The postal code for that location, used for cacheing strategies
+  # @return [JSON] Returns weather data or an error message.
+  #   - On success: A JSON object with keys for temperature, humidity, and description of the weather.
+  #   - On error: A JSON object containing an 'error' key with a descriptive message.
   #
-  # @return [JSON] Contains weather data or an error message.
-  #   - On success, the response will be a hash with the following keys:
-  #     - temperature [Float]: The current temperature in degrees Celsius.
-  #     - humidity [Float]: The current humidity as a value between 0 and 1.
-  #     - description [String]: A brief description of the current weather conditions.
-  #   - On error, the response will be a hash with the following key:
-  #     - error [String]: A message describing the error that occurred.
-  #
-  # Errors:
-  # - If the latitude or longitude parameters are missing or invalid, a 422 Unprocessable Entity
-  #   response will be returned with an error message.
-  # - If an unexpected error occurs while fetching weather data, a 422 Unprocessable Entity
-  #   response will be returned with a generic error message.
+  # Possible errors:
+  # - Missing or invalid latitude/longitude will result in a 422 Unprocessable Entity status.
+  # - Any unexpected errors during data retrieval will also result in a 422 status with a general error message.
   def lookup
     # Convert latitude and longitude parameters to floats
     # This prevents potential type mismatch errors and ensures I have numbers!

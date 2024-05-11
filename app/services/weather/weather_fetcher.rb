@@ -1,26 +1,20 @@
 module Weather
-  # WeatherFetcher is responsible for fetching weather data from an external weather provider
-  # based on the provided latitude and longitude coordinates.
+  # WeatherFetcher is responsible for fetching weather data from an external provider.
+  # This class adheres to the Cache::BaseFetcher interface to facilitate caching of the fetched data.
   #
-  # It implements the Cache::BaseFetcher interface, which provides a common interface for
-  # fetching and caching data.
-  #
-  # The weather data is fetched from the specified weather provider.
-  # The cache key is passed in and on demand from the cache service is presented to cach fetched data.
-  #
-  # The CacheService will use the cache key to store and retrieve the weather data from the cache,
-  # ...and check to see if the data is already cached. It's a read-through cache so will use this
-  # ...implementation of BaseFetcher to fetch the data if it's not already cached. 
+  # Weather data retrieval is performed using the weather provider supplied at init, and a pre-defined cache key 
+  # - also provided at init - is utilized for storing and retrieving data from the cache. 
+  # This implementats a read-through caching strategy, fetching data from the provider only 
+  # if it is not available in the cache. 
   #
   # Usage:
-  #   weather_fetcher = WeatherFetcher.new(latitude, longitude, weather_provider)
+  #   weather_fetcher = WeatherFetcher.new(weather_provider, cache_key)
   #   weather_data = Cache::FetchingCacheService.fetch_or_store(weather_fetcher)
   #
   # Dependencies:
-  #   - Cache::BaseFetcher
-  #   - SemanticLogger
-  #   - GeoHash (for generating cache keys)
-  #   - Weather provider (e.g., OpenWeatherMap, DarkSky)
+  #   - Cache::BaseFetcher: Interface for objects that fetch data and provide a cache key.
+  #   - SemanticLogger: Used for logging internal operations.
+  #   - Weather provider: External service like OpenWeatherMap or DarkSky.
   class WeatherFetcher
     include Cache::BaseFetcher
     include SemanticLogger::Loggable
