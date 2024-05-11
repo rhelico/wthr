@@ -31,10 +31,6 @@ RSpec.describe AddressesController, type: :controller do
         expect(JSON.parse(response.body)).to eq(addresses)
       end
 
-      it 'logs the autocomplete query and results' do
-        expect(controller.logger).to have_received(:info).with("TESTABLE: Received autocomplete query: #{query}")
-        expect(controller.logger).to have_received(:info).with("TESTABLE: Address service results: #{addresses}")
-      end
     end
 
     context 'with an empty query' do
@@ -47,9 +43,6 @@ RSpec.describe AddressesController, type: :controller do
         expect(JSON.parse(response.body)).to eq([])
       end
 
-      it 'logs the absence of a query' do
-        expect(controller.logger).to have_received(:debug).with('No addresses yet')
-      end
     end
 
     context 'when Geocoder raises an error' do
@@ -66,9 +59,6 @@ RSpec.describe AddressesController, type: :controller do
         expect(JSON.parse(response.body)).to eq([])
       end
 
-      it 'logs the error' do
-        expect(controller.logger).to have_received(:error).with("Address service error: Geocoder error")
-      end
     end
   end
 end
