@@ -29,7 +29,7 @@ class WeatherController < ApplicationController
       weather_service = Weather::WeatherService.new
       logger.debug "defined new weather_service"
       weather = weather_service.get_weather(latitude: latitude, longitude: longitude, postal_code: postal_code)
-      logger.debug "got weather data #{weather}"
+      logger.debug "got weather data #{weather.inspect}"
       if weather[:error]
         logger.error "Error in WeatherService response", error: weather[:error]
 
