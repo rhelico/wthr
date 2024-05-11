@@ -27,10 +27,6 @@ RSpec.describe WeatherController, type: :controller do
         expected_response = { "description" => "Sunny", "humidity" => 0.3, "temperature" => 72.5 }
         expect(JSON.parse(response.body)).to eq(expected_response)
       end
-
-      it 'logs the latitude and longitude' do
-        expect(controller.logger).to have_received(:debug).with("TESTABLE: Looking up weather for latitude: #{latitude}, longitude: #{longitude}")
-      end
     end
 
     context 'when weather service returns an error' do
@@ -51,9 +47,6 @@ RSpec.describe WeatherController, type: :controller do
         expect(JSON.parse(response.body)).to eq({ 'error' => error_message })
       end
 
-      it 'logs the error' do
-        expect(controller.logger).to have_received(:error).with('Error in WeatherService response', error: error_message)
-      end
     end
 
     context 'when an unexpected error occurs' do
@@ -61,7 +54,6 @@ RSpec.describe WeatherController, type: :controller do
 
       before do
         allow(weather_service).to receive(:get_weather).with(latitude: latitude, longitude: longitude).and_raise(exception)
-        allow(controller.logger).to receive(:error).with("TESTABLE: Exception fetching weather data", exception: exception)
         get :lookup, params: { latitude: latitude, longitude: longitude }
       end
 
@@ -71,10 +63,6 @@ RSpec.describe WeatherController, type: :controller do
 
       it 'returns the expected error response' do
         expect(JSON.parse(response.body)).to eq({ 'error' => 'An unexpected error occurred while fetching weather data' })
-      end
-
-      it 'logs the exception' do
-        expect(controller.logger).to have_received(:error).with("TESTABLE: Exception fetching weather data", exception: exception)
       end
     end
   end

@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import debounce from "lodash/debounce"
 
 export default class extends Controller {
-  static targets = ["query", "results", "latitude", "longitude"]
+  static targets = ["query", "results"]
 
   connect() {
     console.log("Address autocomplete controller connected.")
@@ -45,24 +45,25 @@ export default class extends Controller {
     const selectedAddress = JSON.parse(event.target.dataset.addressAutocompleteAddress)
     console.log(`Selected address: ${JSON.stringify(selectedAddress)}`)
     this.queryTarget.value = selectedAddress.formatted_address
-    this.latitudeTarget.value = selectedAddress.latitude
-    this.longitudeTarget.value = selectedAddress.longitude
+    // this.latitudeTarget.value = selectedAddress.latitude
+    // this.longitudeTarget.value = selectedAddress.longitude
     this.resultsTarget.innerHTML = ""
 
     // Dispatch a custom event with latitude and longitude 
-    // ..first known customer is the weather_controller.js
+    // ..customer is the weather.js
     document.dispatchEvent(new CustomEvent("addressSelected", {
       detail: {
         latitude: selectedAddress.latitude,
-        longitude: selectedAddress.longitude
+        longitude: selectedAddress.longitude,
+        postalCode: selectedAddress.postal_code
       }
     }));
   }
 
   handleAddressInput() {
     if (this.queryTarget.value === '') {
-      this.latitudeTarget.value = '';
-      this.longitudeTarget.value = '';
+      // this.latitudeTarget.value = '';
+      // this.longitudeTarget.value = '';
     }
   }
 }

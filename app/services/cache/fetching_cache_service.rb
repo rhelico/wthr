@@ -47,10 +47,13 @@ module Cache
       LOGGER.info "Cached data: #{cached_data}"
 
       if cached_data.present?
-        JSON.parse(cached_data)
+        cached_hash = JSON.parse(cached_data)
+        cached_hash["cached"] = "true"
+        cached_hash
       else
         fresh_data = data_fetcher.fetch
         redis.setex(key, 30.minutes.to_i, fresh_data.to_json)
+        fresh_data["cached"] = "false"
         fresh_data
       end
     end
