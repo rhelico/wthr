@@ -29,16 +29,18 @@ module Weather
     # @param postal_code [String] Possibly used for cacheing
     # @return [Hash] The weather data for the specified location.
     def get_weather(latitude:, longitude:, postal_code:)
-      logger.info "Looking up weather for lat: #{latitude}, lon: #{longitude}"
+      logger.info "Looking up weather for lat: #{latitude}, lon: #{longitude}, postal_code: #{postal_code}"
 
       weather_provider = WeatherProviderOpenWeather.new(latitude, longitude)
       logger.info "have new weather provider"
 
-      if postal_code.nil?
+      if postal_code.nil? || postal_code.empty? || postal_code == "null"
+        logger.info "no postal code, using geohash for cache key"
         # postal code not a reliable cache strategy for many consumer lookups like "Topeka, KS"
         # backup strategy is to use a ~2.4km x 3.2km geohash (precision 5)
         cache_key = "weather_geohash:#{GeoHash.encode(latitude, longitude, 5)}"
       else
+        logger.info "yes postal code #{postal_code}, using postal code for cache key"
         cache_key = "weather_postal_code:#{postal_code}"
       end
 
