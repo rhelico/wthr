@@ -2,7 +2,7 @@ require 'redis'
 require 'docker'
 
 begin
-  Docker.options[:read_timeout] = 30 * 3 # 3 minutes
+  Docker.options[:read_timeout] = 60 * 3 # 3 minutes
 
   redis_container_name = 'redis-simple'
   redis_port = 6379

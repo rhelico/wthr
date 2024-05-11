@@ -11,20 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres:15
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: wthr_production
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          
       redis:
         image: redis:latest
         ports:
@@ -50,11 +36,6 @@ jobs:
 
       - name: Build Tailwind CSS
         run: rails tailwindcss:build
-
-      - name: Create and Migrate Database
-        run: |
-          export DATABASE_URL=postgres://postgres:password@localhost:5432/wthr_production
-          rails db:create db:migrate
 
       - name: Run RSpec tests
         run: bundle exec rspec

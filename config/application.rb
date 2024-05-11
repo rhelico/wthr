@@ -30,6 +30,11 @@ module Wthr
     Bundler.require(*Rails.groups)
     Dotenv::Rails.load
 
+    config.generators do |g|
+      g.orm nil # This disables any ORM hooks, specifically ActiveRecord
+    end
+
+
     # use rspec!
     config.generators.test_framework :rspec
   end
