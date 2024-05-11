@@ -4,13 +4,16 @@ export default class extends Controller {
   static targets = ["weather"]
 
   connect() {
+    // needs to be document as the event bubbles up to the document
+    // if you try to listen to the event on the element itself, it won't work
     document.addEventListener("addressSelected", this.fetchWeather.bind(this))
   }
 
   async fetchWeather(event) {
-    const { latitude, longitude } = event.detail
+    const { latitude, longitude, postalCode } = event.detail
     try {
-      const response = await fetch(`/weather/lookup?latitude=${String(latitude)}&longitude=${String(longitude)}`, {
+      const response = await fetch(`/weather/lookup?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}&postalCode=${encodeURIComponent(postalCode)}`, {
+
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -37,6 +40,7 @@ export default class extends Controller {
     const description = weatherData.current?.weather[0]?.description ?? "N/A"
     const windSpeed = weatherData.current?.wind_speed ?? "N/A"
     const humidity = weatherData.current?.humidity ?? "N/A"
+    const cached = weatherData.cached 
 
     weatherElement.innerHTML = `
       <div class="p-4 bg-gray-100 rounded-lg">
@@ -45,6 +49,7 @@ export default class extends Controller {
         <p><strong>Description:</strong> ${description}</p>
         <p><strong>Wind Speed:</strong> ${windSpeed} m/s</p>
         <p><strong>Humidity:</strong> ${humidity}%</p>
+        <p><strong>From cache:</strong> ${cached}</p>
       </div>
     `
   }

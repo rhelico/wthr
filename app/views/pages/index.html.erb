@@ -1,28 +1,30 @@
-<!-- Hero 1: Main content  -->
-<div class="flex flex-wrap">
-  <div class="w-full lg:w-3/5 2xl:w-4/5">
-    section 1
+<div class="max-w-lg mx-auto my-8 p-6 bg-white border border-gray-300 rounded-lg shadow-lg">
+  <div data-controller="address-autocomplete" >
+    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">getting warmer...</h2>
+
+    <div class="mb-4">
+      <label for="address_autocomplete" class="block text-sm font-medium text-gray-700 mb-2">Search for an Address</label>
+      <input
+        type="text"
+        name="address"
+        id="address_autocomplete"
+        data-address-autocomplete-target="query"
+        autocomplete="off"
+        placeholder="Type an address..."
+        class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      />
+      <div data-address-autocomplete-target="results" class="absolute bg-white shadow-md mt-1 w-full border border-gray-300"></div>
+    </div>
+
+   
+
   </div>
-   <div class="w-full lg:w-2/5 2xl:w-1/5 flex flex-col p-4">
-    <div class="mb-2">
-      <span class="text-6xl xl:text-4xl lg:text-2xl md:text-xl">copy </span>
+  <div data-controller="weather">
+    <div class="mt-4">
+      <h3 class="text-lg font-semibold">Weather Information</h3>
+      <div data-weather-target="weather">
+        <!-- Weather data will be dynamically inserted here -->
+      </div>
     </div>
   </div>
 </div>
-
-<!-- Hero 2: Four Weather Tiles -->
-<div class="flex flex-wrap justify-between mt-8">
-    <% heroes = [
-      "Weather tile 1",
-      "Weather tile 2",
-      "Weather tile 3",
-      "Weather tile 4"
-    ] %>
-
-<% heroes.each do |name| %>
-    <div class="w-1/2 md:w-1/4 p-2">
-      <p class="text-center mb-2"><%= name %></p>
-    </div>
-<% end %>
-</div>
-
