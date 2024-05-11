@@ -1,19 +1,21 @@
 module Address
-  # This address service is bound to and abstracts away AddressProvider.
-  # This is an incomplete abstraction.  AddressProvider could be a base class (like we did
-  # with BaseFetcher.  It's better than a monolotihic class, and would allow us to easily swap
-  # in different providers, or different output formats.
-  #
-  # I forward the postal code as it's necessary for the assigned cacheing strategy.
+  # This service class abstracts the interaction with the address provider, Google Maps Geocoding API.
+  # The idea is to separate the provider - could be any api - from the service by abstracting the 
+  # provider through dependency injection.
   #
   # Example usage:
-  #   address_service = Address::AddressService.new
+  #   address_service = Address::AddressService.new(address_provider)
   #   autocomplete_results = address_service.autocomplete("1600 Amphitheatre Parkway")
   #
   class AddressService
     def initialize(address_provider = AddressProvider.new)
       @provider = address_provider
     end
+
+    # Returns an array of formatted address results based on the input query.
+    #
+    # @param query [String] The search query for address autocompletion.
+    # @return [Array<Hash>] A list of hashes each containing formatted address details.
 
     def autocomplete(query)
       results = @provider.search(query)

@@ -2,35 +2,32 @@ require 'semantic_logger'
 require 'redis'
 
 module Cache
-  # This module serves as a read-through caching layer
-  # Implemented to use Redis as the caching mechanism.
-  # It is generic via the use of the Cache::BaseFetcher interface.  This allows
-  # for the implementation of different data fetching and key-ing strategies.
+  # Provides a read-through caching mechanism using Redis. This service is designed to work
+  # with any object that follows the Cache::BaseFetcher interface, which requires methods
+  # for `get_key` and `fetch`. This design allows the use of different data fetching strategies
+  # and makes the caching mechanism adaptable to various needs.
   #
   # Usage:
   #   # Initialize a data fetcher object
   #   data_fetcher = SomeDataFetcher.new(some_parameters)
-  #
-  #   # Fetch data using the FetchingCacheService, which either returns cached data or fetches
-  #   # and caches fresh data if not already cached.
+  #   # Retrieve data, fetching it from the source and caching it if not already cached
   #   data = Cache::FetchingCacheService.fetch_or_store(data_fetcher)
   #
   # Dependencies:
-  #   - Redis: Used for storing and retrieving cached data.
-  #   - SemanticLogger: Provides logging capabilities to trace and debug the caching process.
-  #   - Rails.application.config.cache_store: Expected to be configured with appropriate parameters
-  #     like Redis URL for connecting to the Redis instance.
-
+  #   - Redis: Utilized for caching data.
+  #   - SemanticLogger: Used for logging service operations and debugging.
+  #   - Rails.application.config.cache_store: Must be configured to include the Redis URL.
   module FetchingCacheService
     extend self
 
     LOGGER = SemanticLogger[self]
 
-    # Attempts to fetch data from cache using a provided data fetcher object. If the data
-    # is not available in the cache, it fetches from the data source and stores it in the cache.
+    # Fetches data from cache or directly from the data source - via the fetcher - if not available in cache.
+    # Caches the fresh data if it is fetched from the source.
     #
-    # @param data_fetcher [Object] An object responsible for fetching data and providing a unique cache key.
-    # @return [Object] Cached or freshly fetched data.
+    # @param data_fetcher [Object] An object that knows how to fetch data and generate a cache key.
+    # @return [Hash] Data retrieved from the cache or fetched fresh, with an added "cached" key indicating the source.
+    
     def fetch_or_store(data_fetcher)
       key = data_fetcher.get_key
       LOGGER.info "key: #{key}"
@@ -53,7 +50,7 @@ module Cache
       else
         fresh_data = data_fetcher.fetch
         redis.setex(key, 30.minutes.to_i, fresh_data.to_json)
-        fresh_data["cached"] = "false"
+        fresh_data.merge("cached" => "false") 
         fresh_data
       end
     end

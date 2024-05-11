@@ -9,14 +9,22 @@ RSpec.describe Address::AddressService do
       let(:query) { 'New York, NY' }
       let(:geocoder_results) do
         [
-          double('result', address: '123 Main St, New York, NY 10001', coordinates: [40.7128, -74.0060]),
-          double('result', address: '456 Broadway, New York, NY 10002', coordinates: [40.7196, -73.9937])
+          double('result', data: {
+            'formatted_address' => '123 Main St, New York, NY 10001',
+            'geometry' => { 'location' => { 'lat' => 40.7128, 'lng' => -74.0060 } },
+            'address_components' => [{ 'types' => ['postal_code'], 'long_name' => '10001' }]
+          }),
+          double('result', data: {
+            'formatted_address' => '456 Broadway, New York, NY 10002',
+            'geometry' => { 'location' => { 'lat' => 40.7196, 'lng' => -73.9937 } },
+            'address_components' => [{ 'types' => ['postal_code'], 'long_name' => '10002' }]
+          })
         ]
       end
       let(:expected_results) do
         [
-          { formatted_address: '123 Main St, New York, NY 10001', latitude: 40.7128, longitude: -74.0060 },
-          { formatted_address: '456 Broadway, New York, NY 10002', latitude: 40.7196, longitude: -73.9937 }
+          { formatted_address: '123 Main St, New York, NY 10001', latitude: 40.7128, longitude: -74.0060, postal_code: '10001' },
+          { formatted_address: '456 Broadway, New York, NY 10002', latitude: 40.7196, longitude: -73.9937, postal_code: '10002' }
         ]
       end
 
