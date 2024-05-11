@@ -50,12 +50,39 @@ export default class extends Controller {
   }
   getBackgroundColor(temp) {
     console.log("Temp", temp);
-    if (temp >= 100) return 'bg-red-100';    // Super hot
-    if (temp >= 80) return 'bg-orange-100'; // hot
-    if (temp >= 70) return 'bg-yellow-100'; // warm
-    if (temp >= 50) return 'bg-white';    // mild
-    if (temp >= 40) return 'bg-blue-100';    // Cool
-    return 'bg-blue-300';                      // Cold
+    
+    // Define the historical minimum and maximum temperatures
+    const minTemp = -128.6; // Lowest recorded temperature on Earth (Vostok Station, Antarctica)
+    const maxTemp = 134.1; // Highest recorded temperature on Earth (Furnace Creek Ranch, Death Valley, California)
+    
+    // Define the temperature thresholds for red and blue
+    const redThreshold = 100;
+    const blueThreshold = 40;
+    
+    // Calculate the normalized temperature value
+    const normalizedTemp = (temp - minTemp) / (maxTemp - minTemp);
+    
+    // Calculate the hue value based on the normalized temperature
+    let hue;
+    if (temp >= redThreshold) {
+      hue = 0; // Red color for temperatures above the red threshold
+    } else if (temp <= blueThreshold) {
+      hue = 240; // Blue color for temperatures below the blue threshold
+    } else {
+      hue = (1 - (temp - blueThreshold) / (redThreshold - blueThreshold)) * 240;
+    }
+    
+    // Calculate the lightness value to make extremes brighter
+    const lightness = Math.max(60, 95 - (normalizedTemp * 35));
+    
+    // Calculate the saturation value to make extremes more saturated
+    const saturation = Math.min(100, Math.abs(normalizedTemp - 0.5) * 200);
+  
+    
+    // Create the background color using the HSL color model
+    const backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    
+    return backgroundColor;
   }
 
   displayWeatherData(weatherData) {
@@ -69,10 +96,10 @@ export default class extends Controller {
         return `<div class="p-4 bg-gray-100 rounded-lg m-2">Data missing for this day.</div>`;
       }
       const dayLabel = index === 0 ? "Today" : this.getDayOfWeek(data.dt);
-      const bgColor = this.getBackgroundColor(data.temp.day || data.temp);
+      const weather_background_style = this.getBackgroundColor(data.temp.day || data.temp);
       
       return `
-        <div class="p-4 ${bgColor} rounded-lg m-2">
+        <div class="p-4 rounded-lg m-2" style="background-color: ${ weather_background_style };">
           <h3 class="text-lg font-semibold mb-2">${dayLabel}</h3>
           ${
             data.temp.day !== undefined && data.temp.max !== undefined && data.temp.min !== undefined ?
