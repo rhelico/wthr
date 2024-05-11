@@ -44,6 +44,7 @@ class WeatherController < ApplicationController
         # Render a JSON response with the error message and a 422 Unprocessable Entity status code
         render json: { error: weather[:error] }, status: :unprocessable_entity
       else
+        logger.debug "Rendering weather data"
         render json: weather
       end
     rescue StandardError => e
