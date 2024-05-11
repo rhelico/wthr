@@ -56,8 +56,8 @@ export default class extends Controller {
     const maxTemp = 134.1; // Highest recorded temperature on Earth (Furnace Creek Ranch, Death Valley, California)
     
     // Define the temperature thresholds for red and blue
-    const redThreshold = 100;
-    const blueThreshold = 40;
+    const redThreshold = 110;
+    const blueThreshold = 0;
     
     // Calculate the normalized temperature value
     const normalizedTemp = (temp - minTemp) / (maxTemp - minTemp);
@@ -65,18 +65,20 @@ export default class extends Controller {
     // Calculate the hue value based on the normalized temperature
     let hue;
     if (temp >= redThreshold) {
-      hue = 0; // Red color for temperatures above the red threshold
+      // Scale the hue from red at redThreshold to more intense red at maxTemp
+      hue = 0 * (1 - (temp - redThreshold) / (maxTemp - redThreshold)); // Remains at 0 (red)
     } else if (temp <= blueThreshold) {
-      hue = 240; // Blue color for temperatures below the blue threshold
+      // Scale the hue from blue at blueThreshold to more intense blue at minTemp
+      hue = 240 * (1 - (blueThreshold - temp) / (blueThreshold - minTemp)); // Remains at 240 (blue)
     } else {
-      hue = (1 - (temp - blueThreshold) / (redThreshold - blueThreshold)) * 240;
+      // Calculate the hue for temperatures between blueThreshold and redThreshold
+      hue = 240 * (1 - (temp - blueThreshold) / (redThreshold - blueThreshold));
     }
-    
     // Calculate the lightness value to make extremes brighter
-    const lightness = Math.max(60, 95 - (normalizedTemp * 35));
+    const lightness = 60; //Math.max(60, 95 - (normalizedTemp * 35));
     
     // Calculate the saturation value to make extremes more saturated
-    const saturation = Math.min(100, Math.abs(normalizedTemp - 0.5) * 200);
+    const saturation = 100; //Math.min(100, Math.abs(normalizedTemp - 0.5) * 200);
   
     
     // Create the background color using the HSL color model
