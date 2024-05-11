@@ -80,9 +80,11 @@ gem 'httpparty'
 # to support http logging to debug open weather api calls
 # gem 'http_logger'
 
-# redis in docker
-gem 'docker-api'
-gem 'docker'
+# redis in docker for dev and test
+group :development, :test do
+  gem 'docker-api'
+  gem 'docker'
+end
 gem 'redis'
 
 # geohash for cacheing nearby lat/lon
@@ -93,7 +95,9 @@ gem 'amazing_print'
 gem 'rails_semantic_logger'
 
 # helpful as i stablize the code
-gem 'byebug'
+group :development do
+  gem 'byebug'
+end
 
 # gettin' around to those unit tests
 group :development, :test do
