@@ -34,7 +34,7 @@ module Cache
 
       # Fetch Redis configuration from Rails
       redis_url = Rails.application.config.cache_store.last[:url]
-      LOGGER.info "Redis URL: #{redis_url}"
+      LOGGER.info "Redis URL: #{redis_url.inspect}"
 
       # Initialize the Redis client
       redis = Redis.new(url: redis_url)
