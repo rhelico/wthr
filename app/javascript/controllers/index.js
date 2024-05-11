@@ -7,8 +7,3 @@ import { Application } from "@hotwired/stimulus"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
 
-// application specific
-
-// for autocomplete
-import AddressAutocompleteController from "./address_autocomplete_controller"
-application.register("address-autocomplete", AddressAutocompleteController)
