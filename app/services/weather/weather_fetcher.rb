@@ -24,29 +24,22 @@ module Weather
   #   - SemanticLogger
   #   - GeoHash (for generating cache keys)
   #   - Weather provider (e.g., OpenWeatherMap, DarkSky)
-  # Testing:
-  #   - Logging that is inspected by tests has messages prefixed with "TESTABLE:"
-  #     If you want different logging, you can change the test or leave it unchanged
-  #     and add new logging that isn't in conflict with the test.
   class WeatherFetcher
     include Cache::BaseFetcher
     include SemanticLogger::Loggable
 
-    def initialize(latitude, longitude, weather_provider)
+    def initialize(weather_provider, cache_key)
       logger.info "Initializing WeatherFetcher"
-      @latitude = latitude
-      @longitude = longitude
       @weather_provider = weather_provider
+      @key = cache_key
     end
 
     def get_key
-      logger.info "TESTABLE: Generating cache key for lat: #{@latitude}, lon: #{@longitude}"
-      "weather:#{GeoHash.encode(@latitude, @longitude, 5)}"
+      @key
     end
 
     def fetch
-      logger.info "TESTABLE: Fetching weather for lat: #{@latitude}, lon: #{@longitude}"
-      @weather_provider.current_weather(latitude: @latitude, longitude: @longitude).to_h
+      @weather_provider.get_weather.to_h
     end
   end
 end
