@@ -39,7 +39,6 @@ module Wthr
     
     # load env vars to pass to javascript
     Bundler.require(*Rails.groups)
-    Dotenv::Rails.load
 
     config.generators do |g|
       g.orm nil # This disables any ORM hooks, specifically ActiveRecord
