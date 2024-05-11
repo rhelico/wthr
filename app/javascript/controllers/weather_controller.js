@@ -86,8 +86,8 @@ export default class extends Controller {
       `;
 
     }).join('');
-
-    this.weatherTarget.innerHTML = cards + (cached ? `<div class="p-4 bg-gray-100 rounded-lg mt-4">Data from cache</div>` : '');
+    let cachedMessage = cached ? 'From the cache' : 'Fresh data from the cloudy skies';
+    this.weatherTarget.innerHTML = cards + '<div class="p-4 bg-gray-100 rounded-lg mt-4">' + cachedMessage + '</div>';
     
   }
 
