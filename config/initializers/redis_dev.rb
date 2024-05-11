@@ -1,6 +1,8 @@
 require 'redis'
 require 'docker'
 
+return if Rails.env.production?
+
 begin
   Docker.options[:read_timeout] = 60 * 3 # 3 minutes
 
