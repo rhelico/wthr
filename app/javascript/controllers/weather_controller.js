@@ -72,11 +72,15 @@ export default class extends Controller {
       hue = (1 - (temp - blueThreshold) / (redThreshold - blueThreshold)) * 240;
     }
     
-    // Calculate the lightness value to ensure brightness for black fonts
-    const lightness = Math.max(50, 90 - (normalizedTemp * 40));
+    // Calculate the lightness value to make extremes brighter
+    const lightness = Math.max(60, 95 - (normalizedTemp * 35));
+    
+    // Calculate the saturation value to make extremes more saturated
+    const saturation = Math.min(100, Math.abs(normalizedTemp - 0.5) * 200);
+  
     
     // Create the background color using the HSL color model
-    const backgroundColor = `hsl(${hue}, 100%, ${lightness}%)`;
+    const backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
     
     return backgroundColor;
   }
