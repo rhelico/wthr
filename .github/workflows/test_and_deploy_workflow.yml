@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  rspec:
+  rspec_job:
     name: Run RSpec tests
     runs-on: ubuntu-latest
 
@@ -39,3 +39,13 @@ jobs:
 
       - name: Run RSpec tests
         run: bundle exec rspec
+  deplo_job:
+    needs: rspec_job  # This job runs only if the 'rspec_job' job succeeds
+    if: github.ref == 'refs/heads/main'  # Ensures deployment runs only for pushes to main branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to Heroku
+        run: |
+          gem install dpl
+          dpl --provider=heroku --app=${{ secrets.HEROKU_APP_NAME }} --api-key=${{ secrets.HEROKU_API_KEY }}
