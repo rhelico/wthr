@@ -3,6 +3,18 @@ A web app that allows you to enter an address and get back weather for that addr
 
 [Solution overview](solution-overview.md) is here.
 
+## existing deployment
+After the deadline I set up CI/CD to Heroku at https://pleaseallowmeto.helpyourteamlove.life
+
+If you would like to try the app without dealing with local setup (documented below) you can just browse there.
+
+If you want to prove `this code == that site` feel free to submit PRs and I'll approve.  Also if you want to fork and set up your own site on heroku you could:
+1. fork
+1. create a heroku site
+1. use heroku ACM to set up ssl 
+1. configure heroku app key and set it up as a secret
+1. nit, but change the email in the deploy workflow which is hardcoded to mine.
+
 ## installation prereqs
 This is what I used, possibly other rails7 versions will work.
 1. ruby 3.3.0 (2023-12-25 revision 5124f9ac75) [x86_64-darwin23]
