@@ -51,7 +51,7 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
   # not sufficient yet in heroku, also trying this:
-  config.ssl_options = { redirect: { exclude: -> request { request.path =~ /health_check/ } } }
+  config.ssl_options = { redirect: { exclude: -> request { request.path =~ /up/ } } }
 
   # # Log to STDOUT by default
   # config.logger = ActiveSupport::Logger.new(STDOUT)
