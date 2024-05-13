@@ -103,6 +103,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'mock_redis'
+  gem 'rails-controller-testing'
 end
 
 # remove postgres dependency
