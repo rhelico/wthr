@@ -18,5 +18,10 @@ Rails.application.routes.draw do
   # weather lookup
   get 'weather/lookup', to: 'weather#lookup'
 
-  
+  # cache admin
+  namespace :admin do
+    get 'cache', to: 'cache#index'
+    delete 'cache/clear', to: 'cache#clear', as: :clear_cache
+  end
+
 end
