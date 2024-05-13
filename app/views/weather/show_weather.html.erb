@@ -1,0 +1,46 @@
+<div class="my-8">
+  <%if defined?(error) %>
+    <div class="p-4 bg-red-100 rounded-lg">
+      <p class="text-red-600"><%= error %></p>
+    </div>
+  <% else %>
+    <% weather_freshness = cached ? 'Cached' : 'Fresh' %>
+    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6"><%= weather_freshness %> weather for <%=address%></h2>
+    <% days.each_with_index do |day_tuple, index| %>      
+      <% daily_weather = day_tuple[1] %>    
+      <% if !defined?(daily_weather) || !defined?(daily_weather["temp"]) || !defined?(daily_weather["weather"]) %>
+        <div class="p-4 bg-red-100 rounded-lg">
+          <p class="text-red-600">no data available for this day.</p>
+        </div>
+      <% else %>
+        
+
+        <% day_label = index == 0 ? "Today" : daily_weather["day_of_week"] %>
+        
+        <div class="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg">      
+          <h3 class="text-lg font-semibold mb-2 text-center"><%= day_label %></h3>
+          <div class="mt-4">
+            
+            <div class="p-4 rounded-lg m-2" style="background-color: hsl(<%= daily_weather["background_hue"]%>, 100%,60%);">
+              
+              <% if defined?(daily_weather["temp"]["day"]) && defined?(daily_weather["temp"]["max"]) && defined?(daily_weather["temp"]["min"]) %>
+                <p><strong>Temperature:</strong> <%= daily_weather["temperature"].round(2) %> °F (High: <%= daily_weather["temp"]["max"].round(2) %> °F, Low: <%= daily_weather["temp"]["min"].round(2) %> °F)</p>
+              <% else %>
+                <p><strong>Temperature:</strong> <%= daily_weather["temperature"].round(2) %> °F</p>
+              <% end %>
+
+              <p><strong>Description:</strong> <%= daily_weather["weather"][0]["description"] %></p>
+              <p><strong>Wind Speed:</strong> <%= daily_weather["wind_speed"].round(2) %> mph</p>
+              <p><strong>Humidity:</strong> <%= daily_weather["humidity"] %>%</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+    <% end %>
+
+    
+  <% end %>
+</div>
+
+

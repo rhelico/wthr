@@ -49,7 +49,7 @@ module Weather
       tomorrow_weather = weather['daily'].find { |day| Date.strptime(day['dt'].to_s, '%s') == today + 1 }
       next_day_weather = weather['daily'].find { |day| Date.strptime(day['dt'].to_s, '%s') == today + 2 }
 
-      {today: today_weather, tomorrow: tomorrow_weather, next_day: next_day_weather}
+      {"today" => today_weather, "tomorrow" => tomorrow_weather, "next_day" => next_day_weather}
     end
 
     # Constructs a query hash for the OpenWeather API requests.

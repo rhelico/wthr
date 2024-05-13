@@ -23,9 +23,9 @@ RSpec.describe Weather::WeatherProviderOpenWeather do
 
     it 'fetches the current weather data' do
       expected_result = { 
-        today: response_data['current'],
-        tomorrow: response_data['daily'][0],
-        next_day: response_data['daily'][1]
+        "today" => response_data['current'],
+        "tomorrow" => response_data['daily'][0],
+        "next_day" => response_data['daily'][1]
       }
       expect(provider.get_weather).to eq(expected_result)
     end

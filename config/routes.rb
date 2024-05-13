@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # Application specific
    
   # home
-  root "pages#index"
+  root "weather#weather_page"
 
   # address lookup
   get 'addresses/autocomplete', to: 'addresses#autocomplete'
