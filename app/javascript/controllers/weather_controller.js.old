@@ -9,7 +9,7 @@ export default class extends Controller {
 
   async fetchWeather(event) {
     console.log("Fetching weather data for location:", event.detail);
-    const { latitude, longitude, postalCode } = event.detail;
+    const { latitude, longitude, postalCode, address } = event.detail;
     if (!latitude || !longitude) {
       this.displayError("Invalid location data. Please ensure you've selected a valid address.");
       return;
@@ -38,7 +38,7 @@ export default class extends Controller {
         return;
       }
       
-      this.displayWeatherData(weatherData);
+      this.displayWeatherData(weatherData, address);
     } catch (error) {
       console.error("Error fetching weather data from server:", error);
       this.displayError("Error fetching weather data from server. Please try again.");
@@ -87,11 +87,14 @@ export default class extends Controller {
     return backgroundColor;
   }
 
-  displayWeatherData(weatherData) {
+  displayWeatherData(weatherData, address) {
+    // go to page with search resutls
+    window.location.href = '/';
+    
     console.log("displaying weather data:", weatherData)
     const { today, tomorrow, next_day, cached } = weatherData;
     const days = [today, tomorrow, next_day];
-   
+    let sectionTitle = '<h2 class="text-lg text-center font-semibold">Weather for ' + address + '</h3>';
     const cards = days.map((data, index) => {
       console.log("Data for day", index, data);
       if (!data || !data.temp || !data.weather) {
@@ -101,22 +104,28 @@ export default class extends Controller {
       const weather_background_style = this.getBackgroundColor(data.temp.day || data.temp);
       
       return `
-        <div class="p-4 rounded-lg m-2" style="background-color: ${ weather_background_style };">
-          <h3 class="text-lg font-semibold mb-2">${dayLabel}</h3>
-          ${
-            data.temp.day !== undefined && data.temp.max !== undefined && data.temp.min !== undefined ?
-            `<p><strong>Temperature:</strong> ${data.temp.day.toFixed(2)} °F (High: ${data.temp.max.toFixed(2)} °F, Low: ${data.temp.min.toFixed(2)} °F)</p>` :
-            `<p><strong>Temperature:</strong> ${data.temp.toFixed(2)} °F</p>`
-          }
-          <p><strong>Description:</strong> ${data.weather[0].description}</p>
-          <p><strong>Wind Speed:</strong> ${data.wind_speed.toFixed(2)} mph</p>
-          <p><strong>Humidity:</strong> ${data.humidity}%</p>
+        <div class="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg">      
+          
+          <div class="mt-4">
+            <div class="p-4 rounded-lg m-2" style="background-color: ${ weather_background_style };">
+              <h3 class="text-lg font-semibold mb-2">${dayLabel}</h3>
+              ${
+                data.temp.day !== undefined && data.temp.max !== undefined && data.temp.min !== undefined ?
+                `<p><strong>Temperature:</strong> ${data.temp.day.toFixed(2)} °F (High: ${data.temp.max.toFixed(2)} °F, Low: ${data.temp.min.toFixed(2)} °F)</p>` :
+                `<p><strong>Temperature:</strong> ${data.temp.toFixed(2)} °F</p>`
+              }
+              <p><strong>Description:</strong> ${data.weather[0].description}</p>
+              <p><strong>Wind Speed:</strong> ${data.wind_speed.toFixed(2)} mph</p>
+              <p><strong>Humidity:</strong> ${data.humidity}%</p>
+            </div>
+          </div>
+        
         </div>
       `;
 
     }).join('');
     let cachedMessage = cached ? 'From the cache' : 'Fresh data from the cloudy skies';
-    this.weatherTarget.innerHTML = cards + '<div class="p-4 bg-gray-100 rounded-lg mt-4">' + cachedMessage + '</div>';
+    this.weatherTarget.innerHTML = sectionTitle + cards + '<div class="p-4 bg-gray-100 rounded-lg mt-4">' + cachedMessage + '</div>';
     
   }
 

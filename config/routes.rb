@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # Application specific
    
   # home
-  root "pages#index"
+  root "weather#weather_page"
 
   # address lookup
   get 'addresses/autocomplete', to: 'addresses#autocomplete'
@@ -18,5 +18,10 @@ Rails.application.routes.draw do
   # weather lookup
   get 'weather/lookup', to: 'weather#lookup'
 
-  
+  # cache admin
+  namespace :admin do
+    get 'cache', to: 'cache#index'
+    delete 'cache/clear', to: 'cache#clear', as: :clear_cache
+  end
+
 end

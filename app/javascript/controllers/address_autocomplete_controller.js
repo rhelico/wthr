@@ -45,19 +45,16 @@ export default class extends Controller {
     const selectedAddress = JSON.parse(event.target.dataset.addressAutocompleteAddress)
     console.log(`Selected address: ${JSON.stringify(selectedAddress)}`)
     this.queryTarget.value = selectedAddress.formatted_address
-    // this.latitudeTarget.value = selectedAddress.latitude
-    // this.longitudeTarget.value = selectedAddress.longitude
     this.resultsTarget.innerHTML = ""
 
-    // Dispatch a custom event with latitude and longitude 
-    // ..customer is the weather.js
-    document.dispatchEvent(new CustomEvent("addressSelected", {
-      detail: {
-        latitude: selectedAddress.latitude,
-        longitude: selectedAddress.longitude,
-        postalCode: selectedAddress.postal_code
-      }
-    }));
+    /// Construct the URL with query parameters
+    const latitude = encodeURIComponent(selectedAddress.latitude);
+    const longitude = encodeURIComponent(selectedAddress.longitude);
+    const address = encodeURIComponent(selectedAddress.formatted_address); // used for display
+    const postalCode = encodeURIComponent(selectedAddress.postal_code); // used for caching
+
+    const url = `/?address=${address}&latitude=${latitude}&longitude=${longitude}&postalCode=${postalCode}`;
+    window.location.href = url
   }
 
   handleAddressInput() {
